@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  .card 
+    .card-header 
+      h3 Create a new paste!
+    .card-body
+      form(action='/create' method='POST')
+          .mb-3
+            label.form-label(for='name') Author
+            input#authorName.form-control(type='text', name='author')
+          .mb-3
+            label.form-label(for='description') Description
+            input#descriptionName.form-control(type='text', name='description')
+            .form-text write the paste's description
+          button.btn.btn-success(type='submit') Post
