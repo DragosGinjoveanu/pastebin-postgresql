@@ -20,7 +20,7 @@ router.post('/create', async function(req, res) {
         console.log(error.message);
         }
         console.log(author + '\'s paste was introduced in the database');
-        res.redirect('http://localhost:3000/pastesList');
+        //res.redirect('http://localhost:3000/pastesList');
     } else {
         res.render('formError');
     } 
@@ -36,7 +36,7 @@ router.get('/pastesList', async function(req, res) {
     } catch (error) {
         console.log(error.message);
     }
-        //res.render('pastesList', { authors: authors, descriptions: descriptions});
+    //res.render('pastesList', { authors: authors, descriptions: descriptions});
 });
 
 //get 1 paste
@@ -58,7 +58,7 @@ router.put('/pastes/:id', async function(req, res) {
     try {
         const paste = await pool.query("UPDATE author, description SET $1, $2 FROM pastes WHERE pasteId = $3", [author, description, id]);
         res.json(paste);
-        res.redirect('http://localhost:3000/pastesList');
+        //res.redirect('http://localhost:3000/pastesList');
     } catch (error) {
         console.log(error.message);
     }
@@ -70,7 +70,7 @@ router.delete('/pastes/:id', async function(req, res) {
     try {
         const paste = await pool.query( "DELETE FROM pastes WHERE pasteId = $1", [id]);
         res.json(paste);
-        res.redirect('http://localhost:3000/pastesList');
+        //res.redirect('http://localhost:3000/pastesList');
     } catch (error) {
         console.log(error.message);
     }
