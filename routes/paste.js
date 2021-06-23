@@ -26,11 +26,14 @@ router.get('/pastesList', async function(req, res) {
     var authors = [];
     var descriptions = [];
     try {
-        pool.query("SELECT (author, description) FROM pastes", (err, response) => {
+        pool.query("SELECT author AS name, description AS content FROM pastes", (err, response) => {
             var pastes = response;
-            console.log(pastes.rows)
-            //res.render('pastesList', {pastes: {pastes}});
-            pool.end();
+            for(var j = 0; j < pastes.rows.length; j++) {
+                authors.push(pastes.rows[j].name);
+                descriptions.push(pastes.rows[j].content);
+            }
+            console.log(pastes.rows[0].name)
+            res.render('pastesList', {authors: authors, descriptions: descriptions});
         });
     } catch (error) {
         console.log(error.message);
@@ -41,11 +44,12 @@ router.get('/pastesList', async function(req, res) {
 router.get('/pastes/:id', async function(req, res) {
     var id = req.params.id;
     try {
-        pool.query('SELECT * FROM pastes WHERE pasteId = $1', [id], (error, results) => {
+        pool.query('SELECT (author, description) FROM pastes WHERE pasteId = $1', [id], (error, results) => {
             if (error) {
               throw error
             }
-            response.status(200).json(results.rows);
+            var paste = results;
+            console.log(paste)
         });
     } catch (error) {
         console.log(error.message);
