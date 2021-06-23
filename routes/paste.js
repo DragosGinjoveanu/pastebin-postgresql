@@ -13,12 +13,16 @@ router.post('/create', async function(req, res) {
     var author = req.body.author;
     var description = req.body.description;
     try {
-        const paste = await pool.query("INSERT INTO pastes (author, description) VALUES ($1, $2) RETURNING *", [author, description]);
-        console.log(author + '\'s paste was introduced in the database');
+        if (author.length != 0 && description.length != 0) {
+            const paste = await pool.query("INSERT INTO pastes (author, description) VALUES ($1, $2) RETURNING *", [author, description]);
+            console.log(author + '\'s paste was introduced in the database');
+            res.redirect('http://localhost:3000/pastesList');
+        } else {
+            res.render('formError', {location: ''});
+        }
     } catch (error) {
         console.log(error.message);
     }
-    res.redirect('http://localhost:3000/pastesList');
 });
 
 //gets list of all pastes
@@ -61,8 +65,12 @@ router.post('/edit/:id', async function(req, res) {
     var author = req.body.author;
     var description = req.body.description;
     try {
-        const paste = await pool.query("UPDATE pastes SET author = $1, description = $2 WHERE pasteId = $3", [author, description, id]);
-        res.redirect('http://localhost:3000/pastesList');
+        if (author.length != 0 && description.length != 0) {
+            const paste = await pool.query("UPDATE pastes SET author = $1, description = $2 WHERE pasteId = $3", [author, description, id]);
+            res.redirect('http://localhost:3000/pastesList');
+        } else {
+            res.render('formError', {location: '/pastes/' + id});
+        }
     } catch (error) {
         console.log(error.message);
     }

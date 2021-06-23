@@ -5,4 +5,5 @@ block content
         .card-header.text-center
             h4(style="color:red;") Please complete all the fields!
         .card-body.text-center
-            button.btn.btn-secondary(type='button' onclick="location.href='http://localhost:3000'") Go back
+            -var link= 'http://localhost:3000' + location;
+            a(class="btn btn-secondary" href=link) Go back
