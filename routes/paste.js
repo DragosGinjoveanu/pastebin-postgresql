@@ -38,7 +38,7 @@ router.get('/pastesList', async function(req, res) {
     }
 });
 
-//get 1 paste
+//get 1 given paste
 router.get('/pastes/:id', async function(req, res) {
     var id = req.params.id;
     try {
@@ -67,12 +67,12 @@ router.post('/edit/:id', async function(req, res) {
 });
 
 //delete paste
-router.delete('/delete/:id', async function(req, res) {
+router.post('/delete/:id', async function(req, res) {
     var id = req.params.id;
     try {
         const paste = await pool.query( "DELETE FROM pastes WHERE pasteId = $1", [id]);
-        res.json(paste);
-        //res.redirect('http://localhost:3000/pastesList');
+        console.log("Paste ID: " + id + " was deleted")
+        res.redirect('http://localhost:3000/pastesList');
     } catch (error) {
         console.log(error.message);
     }
