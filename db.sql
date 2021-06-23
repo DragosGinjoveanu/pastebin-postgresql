@@ -1,4 +1,4 @@
-CREATE DATABASE pastes;
+CREATE DATABASE pastes_database;
 
 CREATE TABLE pastes(
     pasteId SERIAL PRIMARY KEY,

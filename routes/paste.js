@@ -12,18 +12,13 @@ router.get('/', function(req, res) {
 router.post('/create', async function(req, res) {
     var author = req.body.author;
     var description = req.body.description;
-    if (author.length != 0 && description.length != 0) {
-        try {
-        const paste = await pool.query("INSERT INTO pastes VALUES $1, $2" [author, description]);
-        res.json(paste);
-        } catch (error) {
-        console.log(error.message);
-        }
+    try {
+        const paste = await pool.query("INSERT INTO pastes (author, description) VALUES ($1, $2) RETURNING *", [author, description]);
         console.log(author + '\'s paste was introduced in the database');
-        //res.redirect('http://localhost:3000/pastesList');
-    } else {
-        res.render('formError');
-    } 
+    } catch (error) {
+        console.log(error.message);
+    }
+    res.redirect('http://localhost:3000/pastesList');
 });
 
 //get all pastes
@@ -31,20 +26,27 @@ router.get('/pastesList', async function(req, res) {
     var authors = [];
     var descriptions = [];
     try {
-        const pasteList = await pool.query("SELECT * FROM pastes");
-        res.json(pasteList);
+        pool.query("SELECT (author, description) FROM pastes", (err, response) => {
+            var pastes = response;
+            console.log(pastes.rows)
+            //res.render('pastesList', {pastes: {pastes}});
+            pool.end();
+        });
     } catch (error) {
         console.log(error.message);
     }
-    //res.render('pastesList', { authors: authors, descriptions: descriptions});
 });
 
 //get 1 paste
 router.get('/pastes/:id', async function(req, res) {
     var id = req.params.id;
     try {
-        const pasteList = await pool.query("SELECT * FROM pastes WHERE pasteId = $1", [id]);
-        res.json(pasteList);
+        pool.query('SELECT * FROM pastes WHERE pasteId = $1', [id], (error, results) => {
+            if (error) {
+              throw error
+            }
+            response.status(200).json(results.rows);
+        });
     } catch (error) {
         console.log(error.message);
     }
