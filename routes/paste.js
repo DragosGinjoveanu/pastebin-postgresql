@@ -3,12 +3,12 @@ const router = express.Router();
 const pool = require("../database");
 
 
-//"create paste" page form
+//"create paste" home page
 router.get('/', function(req, res) {
     res.render('createPaste');
 });
   
-//post paste
+//posts the paste
 router.post('/create', async function(req, res) {
     var author = req.body.author;
     var description = req.body.description;
@@ -21,24 +21,26 @@ router.post('/create', async function(req, res) {
     res.redirect('http://localhost:3000/pastesList');
 });
 
-//get all pastes
+//gets list of all pastes
 router.get('/pastesList', async function(req, res) {
     var authors = [];
     var descriptions = [];
+    var ids = [];
     try {
-        pool.query("SELECT author AS name, description AS content FROM pastes", (err, pastes) => {
+        pool.query("SELECT pasteId AS id, author AS name, description AS content FROM pastes", (err, pastes) => {
             for(var j = 0; j < pastes.rows.length; j++) {
+                ids.push(pastes.rows[j].id);
                 authors.push(pastes.rows[j].name);
                 descriptions.push(pastes.rows[j].content);
             }
-            res.render('pastesList', {authors: authors, descriptions: descriptions});
+            res.render('pastesList', {ids: ids, authors: authors, descriptions: descriptions});
         });
     } catch (error) {
         console.log(error.message);
     }
 });
 
-//get 1 given paste
+//displays a given paste 
 router.get('/pastes/:id', async function(req, res) {
     var id = req.params.id;
     try {
@@ -53,7 +55,7 @@ router.get('/pastes/:id', async function(req, res) {
     }
 });
 
-//edit paste route
+//edits paste's content
 router.post('/edit/:id', async function(req, res) {
     var id = req.params.id;
     var author = req.body.author;
@@ -66,7 +68,7 @@ router.post('/edit/:id', async function(req, res) {
     }
 });
 
-//delete paste
+//deletes selected paste
 router.post('/delete/:id', async function(req, res) {
     var id = req.params.id;
     try {
