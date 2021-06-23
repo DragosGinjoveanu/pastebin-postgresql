@@ -53,22 +53,21 @@ router.get('/pastes/:id', async function(req, res) {
     }
 });
 
-//edit paste
-router.put('/pastes/:id', async function(req, res) {
+//edit paste route
+router.post('/edit/:id', async function(req, res) {
     var id = req.params.id;
     var author = req.body.author;
     var description = req.body.description;
     try {
-        const paste = await pool.query("UPDATE author, description SET $1, $2 FROM pastes WHERE pasteId = $3", [author, description, id]);
-        res.json(paste);
-        //res.redirect('http://localhost:3000/pastesList');
+        const paste = await pool.query("UPDATE pastes SET author = $1, description = $2 WHERE pasteId = $3", [author, description, id]);
+        res.redirect('http://localhost:3000/pastesList');
     } catch (error) {
         console.log(error.message);
     }
 });
 
 //delete paste
-router.delete('/pastes/:id', async function(req, res) {
+router.delete('/delete/:id', async function(req, res) {
     var id = req.params.id;
     try {
         const paste = await pool.query( "DELETE FROM pastes WHERE pasteId = $1", [id]);

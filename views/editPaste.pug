@@ -6,7 +6,7 @@ block content
       h3= 'Edit ' + author + '\'s paste'
     .card.body
       -var action= "/edit/" + id;
-      form(action= action method='PUT')
+      form(action= action method='POST')
           .mb-3
             label.form-label(for='name') Author
             input#authorName.form-control(type='text', name='author', value= author)
