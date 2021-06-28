@@ -9,4 +9,4 @@ I want it to look like a simplified version of the popular website "pastebin.com
 ###### Technologies:
   -express.js
   -postgresql
-  -bootstrap
+  -bootstrap & pug
