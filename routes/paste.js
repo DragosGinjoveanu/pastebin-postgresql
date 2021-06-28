@@ -27,9 +27,11 @@ router.post('/create', async function(req, res) {
 //gets list of all pastes
 router.get('/pastesList', async function(req, res) {
     try {
+        //here is where I got stuck
         //undefined pastes
         var pastes = await queries.pastesList();
         console.log(pastes);
+        //I want to pass only 1 argument
         //res.render('pastesList', {pastes: pastes});
     } catch (error) {
         console.log(error.message);

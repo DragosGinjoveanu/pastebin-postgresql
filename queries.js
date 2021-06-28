@@ -16,16 +16,16 @@ async function pastesList() {
                 authors.push(pastes.rows[j].name);
                 descriptions.push(pastes.rows[j].content);
             }
-            // var result = {
-            //     authors,
-            //     descriptions,
-            //     ids
-            // };
-            console.log(ids);
-            return ids;
+            var result = {
+                authors,
+                descriptions,
+                ids
+            };
+            console.log(result);
+            return result;
         });
       } catch (err) {
-        return err.stack;
+        return console.log(err.message);
       }
 }
 
