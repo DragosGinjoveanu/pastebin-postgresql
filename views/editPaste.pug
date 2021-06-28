@@ -3,15 +3,15 @@ extends layout
 block content
   .card 
     .card.header.text-center
-      h3= 'Edit ' + paste.author + '\'s paste'
+      h3= 'Edit ' + paste.name + '\'s paste'
     .card.body
-      -var action= "/edit/" + paste.id;
+      -var action= "/edit/" + id;
       form(action= action method='POST')
           .mb-3
             label.form-label(for='name' style="color:red") Author
-            input#authorName.form-control(type='text', name='author', value= paste.author)
+            input#authorName.form-control(type='text', name='author', value= paste.name)
           .mb-3
             label.form-label(for='description' style="color:red") Description
-            input#descriptionName.form-control(type='text', name='description', value= paste.description)
+            input#descriptionName.form-control(type='text', name='description', value= paste.content)
             .form-text edit paste content
           button.btn.btn-success(type='submit') Edit

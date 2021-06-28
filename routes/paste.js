@@ -24,23 +24,31 @@ router.post('/create', async function(req, res) {
     }
 });
 
-//gets list of all pastes
+//need to solve the "undefined pastes" bug
 router.get('/pastesList', async function(req, res) {
-    var pastes = await queries.pastesList();
-    console.log(pastes);
+    var authors = [];
+    var descriptions = [];
+    var ids = [];
+    try {
+        pool.query("SELECT pasteId AS id, author AS name, description AS content FROM pastes", (err, pastes) => {
+            for (var j = 0; j < pastes.rows.length; j++) {
+                ids.push(pastes.rows[j].id);
+                authors.push(pastes.rows[j].name);
+                descriptions.push(pastes.rows[j].content);
+            }
+            var pastes = {ids, authors, descriptions};
+            res.render('pastesList', {pastes: pastes});
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
 });
 
 //displays a given paste 
 router.get('/pastes/:id', async function(req, res) {
     var id = req.params.id;
-    try {
-        //same problem - undefined
-        var paste = queries.selectPaste(id);
-        console.log(paste);
-        res.render('editPaste', {paste: paste});
-    } catch (error) {
-        console.log(error.message);
-    }
+    var paste = await queries.selectPaste(id);
+    res.render('editPaste', {paste: paste, id: id});
 });
 
 //edits paste's content
