@@ -6,9 +6,6 @@ function createPaste(author, description) {
 }
 
 async function pastesList() {
-    var authors = [];
-    var descriptions = [];
-    var ids = [];
     try {
         const result = await pool.query("SELECT pasteId AS id, author AS name, description AS content FROM pastes");
         return result.rows;
