@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const pool = require("../database");
 const queries = require("../queries");
+//const { check, validationResult } = require('express-validator');
 
 //"create paste" home page
 router.get('/', function(req, res) {
     res.render('createPaste');
 });
-  
+
 //posts the paste
 router.post('/create', async function(req, res) {
     var author = req.body.author;
@@ -24,24 +25,10 @@ router.post('/create', async function(req, res) {
     }
 });
 
-//need to solve the "undefined pastes" bug
+//displays all the pastes
 router.get('/pastesList', async function(req, res) {
-    var authors = [];
-    var descriptions = [];
-    var ids = [];
-    try {
-        pool.query("SELECT pasteId AS id, author AS name, description AS content FROM pastes", (err, pastes) => {
-            for (var j = 0; j < pastes.rows.length; j++) {
-                ids.push(pastes.rows[j].id);
-                authors.push(pastes.rows[j].name);
-                descriptions.push(pastes.rows[j].content);
-            }
-            var pastes = {ids, authors, descriptions};
-            res.render('pastesList', {pastes: pastes});
-        });
-    } catch (error) {
-        console.log(error.message);
-    }
+    var pastes = await queries.pastesList();
+    res.render('pastesList', {pastes: pastes});
 });
 
 //displays a given paste 

@@ -11,20 +11,8 @@ async function pastesList() {
     var descriptions = [];
     var ids = [];
     try {
-        const result = await pool.query("SELECT pasteId AS id, author AS name, description AS content FROM pastes", (err, pastes) => {
-            for (var j = 0; j < pastes.rows.length; j++) {
-                ids.push(pastes.rows[j].id);
-                authors.push(pastes.rows[j].name);
-                descriptions.push(pastes.rows[j].content);
-            }
-            var result = {
-                authors,
-                descriptions,
-                ids
-            };
-            console.log(result);
-            return result;
-        });
+        const result = await pool.query("SELECT pasteId AS id, author AS name, description AS content FROM pastes");
+        return result.rows;
       } catch (err) {
         return console.log(err.message);
       }
