@@ -26,28 +26,8 @@ router.post('/create', async function(req, res) {
 
 //gets list of all pastes
 router.get('/pastesList', async function(req, res) {
-    var authors = [];
-    var descriptions = [];
-    var ids = [];
-    try {
-        // pool.query("SELECT pasteId AS id, author AS name, description AS content FROM pastes", (err, pastes) => {
-        //     for(var j = 0; j < pastes.rows.length; j++) {
-        //         ids.push(pastes.rows[j].id);
-        //         authors.push(pastes.rows[j].name);
-        //         descriptions.push(pastes.rows[j].content);
-        //     }
-        //     var pastes = {authors, descriptions, ids};
-        //     res.render('pastesList', {pastes: pastes});
-        // });
-        //here is where I got stuck
-        //undefined pastes
-        var pastes = await queries.pastesList();
-        console.log(pastes);
-        //I want to pass only 1 argument
-        res.render('pastesList', {pastes: pastes});
-    } catch (error) {
-        console.log(error.message);
-    }
+    var pastes = await queries.pastesList();
+    console.log(pastes);
 });
 
 //displays a given paste 
