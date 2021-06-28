@@ -5,7 +5,6 @@ function createPaste(author, description) {
     console.log(author + '\'s paste was introduced in the database');
 }
 
-//need help
 async function pastesList() {
     var authors = [];
     var descriptions = [];
