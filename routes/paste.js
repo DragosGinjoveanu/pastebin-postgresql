@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const pool = require("../database");
 const queries = require("../queries");
-//const { check, validationResult } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 
 //"create paste" home page
 router.get('/', function(req, res) {
@@ -10,18 +9,19 @@ router.get('/', function(req, res) {
 });
 
 //posts the paste
-router.post('/create', async function(req, res) {
-    var author = req.body.author;
-    var description = req.body.description;
-    try {
-        if (author.length != 0 && description.length != 0) {
+router.post('/create', body('author').isLength({ min: 1 }), body('description').isLength({ min: 1 }), async function(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.render('formError', {location: ''});
+    } else {
+        try {
+            var author = req.body.author;
+            var description = req.body.description;
             queries.createPaste(author, description);
             res.redirect('http://localhost:3000/pastesList');
-        } else {
-            res.render('formError', {location: ''});
+        } catch (error) {
+            console.log(error.message);
         }
-    } catch (error) {
-        console.log(error.message);
     }
 });
 
@@ -39,19 +39,20 @@ router.get('/pastes/:id', async function(req, res) {
 });
 
 //edits paste's content
-router.post('/edit/:id', async function(req, res) {
+router.post('/edit/:id', body('author').isLength({ min: 1 }), body('description').isLength({ min: 1 }), async function(req, res) {
     var id = req.params.id;
-    var author = req.body.author;
-    var description = req.body.description;
-    try {
-        if (author.length != 0 && description.length != 0) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.render('formError', {location: '/pastes/' + id});
+    } else {
+        try {
+            var author = req.body.author;
+            var description = req.body.description;
             queries.editPaste(author, description, id);
             res.redirect('http://localhost:3000/pastesList');
-        } else {
-            res.render('formError', {location: '/pastes/' + id});
+        } catch (error) {
+            console.log(error.message);
         }
-    } catch (error) {
-        console.log(error.message);
     }
 });
 
