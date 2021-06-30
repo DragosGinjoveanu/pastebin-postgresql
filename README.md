@@ -1,5 +1,4 @@
 # pastebin
- ###### Work in progress
 This is my first express.js project that I'm currently working on.  
 I wanted it to look like a simplified version of the popular website "pastebin.com".
   ###### Functionalities:
