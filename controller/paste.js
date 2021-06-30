@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const queries = require("../queries");
+const queries = require('../model/queries');
 const { body, validationResult } = require('express-validator');
 
 //"create paste" home page
