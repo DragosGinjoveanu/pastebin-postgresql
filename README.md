@@ -1,5 +1,5 @@
 # pastebin
-This is my first express.js project that I'm currently working on.  
+This is my first express.js project!
 I wanted it to look like a simplified version of the popular website "pastebin.com".
   ###### Functionalities:
   -create new post  
