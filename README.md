@@ -1,4 +1,4 @@
-#Pastebin
+# Pastebin
 This is my first express.js project!
 I wanted it to look like a simplified version of the popular website "pastebin.com".
 ##### Functionalities:
@@ -7,5 +7,5 @@ I wanted it to look like a simplified version of the popular website "pastebin.c
   -edit/delete for each post
 ##### Technologies:
   -express.js  
-  -postgresql 
-  -bootstrap & pug
+  -postgresql  
+  -bootstrap & pug  
