@@ -15,8 +15,8 @@ router.post('/create', body('author').isLength({ min: 1 }), body('description').
         res.render('formError', {location: ''});
     } else {
         try {
-            var author = req.body.author;
-            var description = req.body.description;
+            const author = req.body.author;
+            const description = req.body.description;
             queries.createPaste(author, description);
             res.redirect('http://localhost:3000/pastesList');
         } catch (error) {
@@ -27,27 +27,27 @@ router.post('/create', body('author').isLength({ min: 1 }), body('description').
 
 //displays all the pastes
 router.get('/pastesList', async function(req, res) {
-    var pastes = await queries.pastesList();
+    const pastes = await queries.pastesList();
     res.render('pastesList', {pastes: pastes});
 });
 
 //displays a given paste 
 router.get('/pastes/:id', async function(req, res) {
-    var id = req.params.id;
-    var paste = await queries.selectPaste(id);
+    const id = req.params.id;
+    const paste = await queries.selectPaste(id);
     res.render('editPaste', {paste: paste, id: id});
 });
 
 //edits paste's content
 router.post('/edit/:id', body('author').isLength({ min: 1 }), body('description').isLength({ min: 1 }), async function(req, res) {
-    var id = req.params.id;
+    const id = req.params.id;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         res.render('formError', {location: '/pastes/' + id});
     } else {
         try {
-            var author = req.body.author;
-            var description = req.body.description;
+            const author = req.body.author;
+            const description = req.body.description;
             queries.editPaste(author, description, id);
             res.redirect('http://localhost:3000/pastesList');
         } catch (error) {
@@ -58,7 +58,7 @@ router.post('/edit/:id', body('author').isLength({ min: 1 }), body('description'
 
 //deletes selected paste
 router.post('/delete/:id', async function(req, res) {
-    var id = req.params.id;
+    const id = req.params.id;
     try {
         queries.deletePaste(id);
         res.redirect('http://localhost:3000/pastesList');
