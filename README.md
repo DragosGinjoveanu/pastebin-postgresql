@@ -8,6 +8,6 @@ The user can create a post, giving it a suitable title and description. All the 
   -see all the posts  
   -edit/delete for each post
 ##### Technologies:
-  -express.js  
-  -postgresql  
-  -bootstrap & pug  
+  -Express.js  
+  -Postgresql  
+  -Bootstrap & Pug  
