@@ -14,14 +14,10 @@ router.post('/create', body('author').isLength({ min: 1 }), body('description').
     if (!errors.isEmpty()) {
         res.render('formError', {location: ''});
     } else {
-        try {
-            const author = req.body.author;
-            const description = req.body.description;
-            queries.createPaste(author, description);
-            res.redirect('http://localhost:3000/pastesList');
-        } catch (error) {
-            console.log(error.message);
-        }
+        const author = req.body.author;
+        const description = req.body.description;
+        await queries.createPaste(author, description);
+        res.redirect('http://localhost:3000/pastesList');
     }
 });
 
@@ -45,26 +41,18 @@ router.post('/edit/:id', body('author').isLength({ min: 1 }), body('description'
     if (!errors.isEmpty()) {
         res.render('formError', {location: '/pastes/' + id});
     } else {
-        try {
-            const author = req.body.author;
-            const description = req.body.description;
-            queries.editPaste(author, description, id);
-            res.redirect('http://localhost:3000/pastesList');
-        } catch (error) {
-            console.log(error.message);
-        }
+        const author = req.body.author;
+        const description = req.body.description;
+        await queries.editPaste(author, description, id);
+        res.redirect('http://localhost:3000/pastesList');
     }
 });
 
 //deletes selected paste
 router.post('/delete/:id', async function(req, res) {
     const id = req.params.id;
-    try {
-        queries.deletePaste(id);
-        res.redirect('http://localhost:3000/pastesList');
-    } catch (error) {
-        console.log(error.message);
-    }
+    await queries.deletePaste(id);
+    res.redirect('http://localhost:3000/pastesList');
 });
 
 module.exports = router;

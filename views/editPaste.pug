@@ -2,9 +2,9 @@ extends layout
 
 block content
   .card 
-    .card.header.text-center
+    .card-header.text-center
       h3= 'Edit ' + paste.name + '\'s paste'
-    .card.body
+    .card-body
       form(action="/edit/" + id, method='POST')
           .mb-3
             label.form-label(for='name' style="color:red") Author
